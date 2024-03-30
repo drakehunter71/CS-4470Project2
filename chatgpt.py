@@ -38,7 +38,7 @@ class OpenAiManager:
             exit("Ooops! You forgot to set OPENAI_API_KEY in your environment!")
 
     # Asks a question with no chat history
-    def chat(self, prompt=""):
+    def chat(self, prompt="", model_name="gpt-3.5-turbo"):
         if not prompt:
             print("Didn't receive input!")
             return
@@ -49,14 +49,12 @@ class OpenAiManager:
             print("The length of this chat question is too large for the GPT model")
             return
 
-        print("[yellow]\nAsking ChatGPT a question...")
         completion = self.client.chat.completions.create(
-            model="gpt-3.5-turbo", messages=chat_question
+            model=model_name, messages=chat_question
         )
 
         # Process the answer
         openai_answer = completion.choices[0].message.content
-        print(f"[green]\n{openai_answer}\n")
         return openai_answer
 
     # Asks a question that includes the full conversation history

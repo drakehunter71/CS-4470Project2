@@ -2,7 +2,6 @@ pandas
 numpy
 seaborn
 matplotlib
-jupyter
 openai
 tiktoken
 rich
