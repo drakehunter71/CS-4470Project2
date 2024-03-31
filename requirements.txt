@@ -6,3 +6,5 @@ openai
 tiktoken
 rich
 anthropic
+nltk
+gensim
