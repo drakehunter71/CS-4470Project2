@@ -1,5 +1,10 @@
 import pandas as pd
 
+# machine learning methods
+# tok/stm/bgm
+# 3.5 vs. 4 vs Haiku vs. Sonnet vs. Opus
+# example vs. no examples
+
 base_file_string = "Data/speculative/Speculation-Dataset/"
 nspec_test_file_list = [
     "tok/nspec_test.tok",
@@ -28,11 +33,12 @@ file_path_list = (
 for file_path in file_path_list:
     with open(base_file_string + file_path, "r") as file:
         data = file.readlines()
+
         print(file_path)
         print(len(data))
         print("")
-        df = pd.DataFrame(data, columns=["Data"])
 
+        df = pd.DataFrame(data, columns=["data"])
         if "tok" in file_path:
             df["type"] = "tok"
         elif "stm" in file_path:
@@ -52,4 +58,4 @@ for file_path in file_path_list:
         dfs.append(df)
 
 combined_df = pd.concat(dfs, ignore_index=True)
-combined_df.to_csv("Data/combined.csv")
+combined_df.to_csv("Data/combined.csv", index=False)
