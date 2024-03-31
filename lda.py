@@ -8,6 +8,8 @@ from gensim import corpora
 from pprint import pprint
 from nltk.stem import WordNetLemmatizer
 
+#test
+
 covid = pd.read_csv("Data/metadata_April10_2020.csv")
 covid = covid[["title", "abstract"]]
 
