@@ -46,8 +46,7 @@ def main():
 
     results_file_path = "Results/autoregressiveModels.csv"
     file_exists = os.path.isfile(results_file_path)
-
-    for counter, data in enumerate(test_df["data"], start=1):
+    for counter, data in enumerate(test_df["data"], start=0):
         results = {"GPT3.5": "", "GPT4": "", "Haiku": "", "Sonnet": "", "Opus": ""}
 
         data_prompt = initial_message + data.rstrip(" .")
@@ -65,7 +64,10 @@ def main():
         result_df = pd.DataFrame([results])
 
         with open(
-            results_file_path, "a" if file_exists else "w", newline="", encoding="utf-8"
+            results_file_path,
+            "a" if file_exists else "w",
+            newline="",
+            encoding="utf-8",
         ) as f:
             result_df.to_csv(f, header=not file_exists, index=False)
         file_exists = True
