@@ -4,13 +4,12 @@ from apikeys import get_api_key
 
 class AnthropicManager:
     def __init__(self):
-        self.chat_history = []  # Stores the entire conversation
+        self.chat_history = []
         try:
             self.client = anthropic.Anthropic(api_key=get_api_key("anthropic"))
         except:
             exit("Ooops! You forgot to set ANTHROPIC_API_KEY in your environment!")
 
-    # Asks a question with no chat history
     def chat(self, prompt="", model_name="claude-3-haiku-20240307"):
         if not prompt:
             print("Didn't receive input!")

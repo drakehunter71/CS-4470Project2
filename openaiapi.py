@@ -31,19 +31,17 @@ def num_tokens_from_messages(messages, model="gpt-4"):
 class OpenAiManager:
 
     def __init__(self):
-        self.chat_history = []  # Stores the entire conversation
+        self.chat_history = []
         try:
             self.client = OpenAI(api_key=get_api_key("openai"))
         except TypeError:
             exit("Ooops! You forgot to set OPENAI_API_KEY in your environment!")
 
-    # Asks a question with no chat history
     def chat(self, prompt="", model_name="gpt-3.5-turbo"):
         if not prompt:
             print("Didn't receive input!")
             return
 
-        # Check that the prompt is under the token context limit
         chat_question = [{"role": "user", "content": prompt}]
         if num_tokens_from_messages(chat_question) > 8000:
             print("The length of this chat question is too large for the GPT model")
@@ -53,7 +51,6 @@ class OpenAiManager:
             model=model_name, messages=chat_question
         )
 
-        # Process the answer
         openai_answer = completion.choices[0].message.content
         return openai_answer
 
