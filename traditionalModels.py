@@ -1,3 +1,0 @@
-# Random Forest
-# CNN
-# RNN
