@@ -32,6 +32,7 @@ def main():
         return
 
     df = pd.read_csv("Data/combined.csv")
+    df["data"] = df["data"].str.replace(r"[.\s]+$", "", regex=True)
     test_df = df[df["traintest"] == "test"]
 
     openai_manager = OpenAiManager()
