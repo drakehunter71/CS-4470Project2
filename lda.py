@@ -11,7 +11,7 @@ from nltk.stem import WordNetLemmatizer
 #test
 
 covid = pd.read_csv("Data/metadata_April10_2020.csv")
-covid = covid[["title", "abstract"]]
+covid = covid[["title", "abstract", "doi"]]
 
 #Creates an indicator attribute for the formatting of the abstract, makes extracting conclusions much simpler
 def hasConclusion(p):
@@ -63,9 +63,10 @@ pprint(lda_model1.print_topics())
 """
 
 ###############################################################################
+print(description(covid))
 
 #2 Sentence Conclusions
-covid['c2'] = covid['conclusion2'].apply(lambda x: [lemmatizer.lemmatize(word.lower()) for word in word_tokenize(x) if word.isalpha() and word.lower() not in stop_words])
+covid["c2"] = covid['conclusion2'].apply(lambda x: [lemmatizer.lemmatize(word.lower()) for word in word_tokenize(x) if word.isalpha() and word.lower() not in stop_words])
 dictionary2 = corpora.Dictionary(covid['c2'])
 
 # Create a corpus
@@ -77,6 +78,17 @@ lda_model2 = gensim.models.LdaModel(corpus2, num_topics=10, id2word=dictionary2,
 # Print the topics
 print("Top words by Topic with 2 Sentence Conclusions")
 pprint(lda_model2.print_topics())
+
+topDocs = {0:[0, ""], 1:[0, ""], 2:[0, ""], 3:[0, ""], 4:[0, ""], 5:[0, ""], 6:[0, ""], 7:[0, ""], 8:[0, ""], 9:[0, ""]}
+for i in range(covid.size[0]):
+    doc_topics = lda_model2.get_document_topics(corpus2[i])
+    for tup in doc_topics:
+      if tup[1] > topDocs[tup[0]][0]:
+        topDocs[tup[0]][0] = tup[1]
+        topDocs[tup[0]][1] = covid.iloc[i]["doi"]
+
+print(topDocs)
+        
 
 """
 Output of LDA(n=5):
