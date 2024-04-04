@@ -80,7 +80,7 @@ print("Top words by Topic with 2 Sentence Conclusions")
 pprint(lda_model2.print_topics())
 
 topDocs = {0:[0, ""], 1:[0, ""], 2:[0, ""], 3:[0, ""], 4:[0, ""], 5:[0, ""], 6:[0, ""], 7:[0, ""], 8:[0, ""], 9:[0, ""]}
-for i in range(covid.size[0]):
+for i in range(covid.shape[0]):
     doc_topics = lda_model2.get_document_topics(corpus2[i])
     for tup in doc_topics:
       if tup[1] > topDocs[tup[0]][0]:
