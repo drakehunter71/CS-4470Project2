@@ -3,8 +3,8 @@ import time
 import logging
 import json
 import os
-from autoRegressiveModels.openaiapi import OpenAiManager
-from autoRegressiveModels.anthropicapi import AnthropicManager
+from openaiapi import OpenAiManager
+from anthropicapi import AnthropicManager
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
