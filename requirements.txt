@@ -10,3 +10,5 @@ nltk
 gensim
 scikit-learn
 xgboost
+tensorflow
+tf.keras

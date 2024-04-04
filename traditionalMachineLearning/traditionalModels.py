@@ -7,12 +7,9 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import (
-    roc_auc_score,
     classification_report,
     accuracy_score,
     confusion_matrix,
-    mean_squared_log_error,
-    r2_score,
     f1_score,
 )
 from xgboost import XGBClassifier
