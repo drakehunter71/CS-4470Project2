@@ -40,6 +40,7 @@ def update_errors_in_results(results_file_path):
     df = pd.read_csv("Data/combined.csv")
     df["data"] = df["data"].str.replace(r"[.\s]+$", "", regex=True)
     test_df = df[df["traintest"] == "test"]
+    test_df.reset_index(drop=True, inplace=True)
 
     if not os.path.exists(results_file_path):
         print("Results file does not exist.")

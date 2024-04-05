@@ -1,12 +1,41 @@
 import pandas as pd
-from sklearn.metrics import f1_score
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-df = pd.read_csv("Data/combined.csv")
-df["data"] = df["data"].str.replace(r"[.\s]+$", "", regex=True)
-test_df = df[df["traintest"] == "test"]
-autoRegressiveModelResults = pd.read_csv("Results/autoRegressiveModels.csv")
+traditionalMachineLearningF1 = pd.read_csv("Results/traditionalMethodsf1.csv")
+autoRegressiveModelF1 = pd.read_csv("Results/autoregressiveMethodsf1.csv")
 
-for col in autoRegressiveModelResults.columns():
-    f1_score()
+f1_results = pd.concat([traditionalMachineLearningF1, autoRegressiveModelF1])
+f1_results.reset_index(drop=True, inplace=True)
 
-traditionalMachineLearningResults = pd.read_csv("Results/traditionalMethodsf1.csv")
+# Set up the matplotlib figure
+plt.figure(figsize=(10, 8))
+
+# Plot
+sns.barplot(x="method", y="f1_score", hue="type", palette="bright", data=f1_results)
+plt.title("F1 Score by Method and Type")
+plt.ylabel("F1 Score")
+plt.ylim(0, 1)
+plt.xlabel("Type")
+plt.xticks(rotation=45)
+plt.legend(title="Method", bbox_to_anchor=(1.05, 1), loc="upper left")
+plt.tight_layout()
+plt.savefig("Results/f1_scores_plot.png")
+plt.show()
+
+for type in f1_results["type"].unique():
+    sns.barplot(
+        x="method",
+        y="f1_score",
+        hue="method",
+        palette="Set1",
+        data=f1_results[f1_results["type"] == type],
+    )
+    plt.title(f"F1 Score by Method for {type} Sentences")
+    plt.ylabel("F1 Score")
+    plt.ylim(0, 1)
+    plt.xlabel("Type")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(f"Results/f1_scores_{type}.png")
+    plt.show()
