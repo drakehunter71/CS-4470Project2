@@ -54,6 +54,7 @@ def update_errors_in_results(results_file_path):
     for index, row in df.iterrows():
         for column in df.columns:
             if row[column] == "ERROR":
+                print(index)
                 if "GPT" in column:
                     manager = openai_manager
                     model_name = config["openai_models"][column]
@@ -71,5 +72,5 @@ def update_errors_in_results(results_file_path):
     print("Results file has been updated.")
 
 
-results_file_path = "Results/autoregressiveModels.csv"
+results_file_path = "Results/autoregressiveModelsOriginalBackup.csv"
 update_errors_in_results(results_file_path)
