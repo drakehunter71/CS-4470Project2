@@ -77,6 +77,7 @@ def vectorizeSentences(inputSentenceTokens, W2V_model_sentence):
 
 
 for type in types:
+    break
     filtered_df = df[df["type"] == type]
     train_df = filtered_df[filtered_df["traintest"] == "train"]
     test_df = filtered_df[filtered_df["traintest"] == "test"]

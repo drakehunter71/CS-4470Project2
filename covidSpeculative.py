@@ -1,6 +1,7 @@
 import pickle
 import pandas as pd
 import numpy as np
+import os
 from sklearn.metrics import (
     classification_report,
     accuracy_score,
@@ -22,7 +23,6 @@ MLmodels = {
     "knn": "Results/knn_classifier_model_tok.pkl",
 }
 ARModels = ["gpt3.5", "gpt4"]
-
 df = pd.read_csv("Data/combined.csv")
 df["data"] = df["data"].str.replace(r"[.\s]+$", "", regex=True)
 filtered_df = df[df["type"] == "tok"]
@@ -47,6 +47,8 @@ x_train = np.array(trainVectorized)
 y_train = labelColumns[labelColumns["traintest"] == "train"]["spec"]
 y_test = test_df["speculative"]
 
+results_file_path = "Results/covidSpeculativef1.csv"
+file_exists = os.path.isfile(results_file_path)
 for key in MLmodels:
     model_file_path = MLmodels[key]
     with open(model_file_path, "rb") as file:
@@ -55,7 +57,6 @@ for key in MLmodels:
     train_accuracy = accuracy_score(y_train, model.predict(x_train))
     test_accuracy = accuracy_score(y_test, model.predict(x_test))
     test_f1_score = f1_score(y_test, model.predict(x_test))
-
     print(f"Training accuracy: {train_accuracy}")
     print(f"Testing accuracy: {test_accuracy}")
     print(f"Testing F1 score: {test_f1_score}")
@@ -65,12 +66,6 @@ for key in MLmodels:
     )
     print("Confusion matrix:\n", confusion_matrix(y_test, model.predict(x_test)))
     print()
-
-    results_file_name = os.path.join(results_dir, f"{method}_results_{type}.txt")
-    model_pkl_file = os.path.join(results_dir, f"{method}_classifier_model_{type}.pkl")
-
-    with open(model_pkl_file, "wb") as file:
-        pickle.dump(clf, file)
 
     results = {"method": "", "f1_score": ""}
     results["method"] = key
@@ -87,4 +82,4 @@ for key in MLmodels:
         result_df.to_csv(f, header=not file_exists, index=False)
     file_exists = True
 
-    print(f"Results and model for model '{key}' have been saved.")
+    print(f"Results for model '{key}' have been saved.")

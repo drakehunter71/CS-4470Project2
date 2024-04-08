@@ -9,7 +9,7 @@ from anthropicapi import AnthropicManager
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
 
-def load_model_config(path="model_config.json"):
+def load_model_config(path="autoRegressiveModels\model_config.json"):
     try:
         with open(path, "r") as file:
             return json.load(file)
@@ -31,9 +31,11 @@ def main():
     if not config:
         return
 
-    df = pd.read_csv("Data/combined.csv")
-    df["data"] = df["data"].str.replace(r"[.\s]+$", "", regex=True)
-    test_df = df[df["traintest"] == "test"]
+    # df = pd.read_csv("Data/combined.csv")
+    # df["data"] = df["data"].str.replace(r"[.\s]+$", "", regex=True)
+    # test_df = df[df["traintest"] == "test"]
+    test_df = pd.read_csv("Data/speculativeManualClassification.csv")
+    test_df["data"] = test_df["conclusion2"]
 
     openai_manager = OpenAiManager()
     anthropic_manager = AnthropicManager()
@@ -45,11 +47,11 @@ def main():
     The set of words is: 
     """
 
-    results_file_path = "Results/autoregressiveModels.csv"
+    # results_file_path = "Results/autoregressiveModels.csv"
+    results_file_path = "Results/covidAutoregressiveModels.csv"
     file_exists = os.path.isfile(results_file_path)
     for counter, data in enumerate(test_df["data"], start=0):
         results = {"GPT3.5": "", "GPT4": "", "Haiku": "", "Sonnet": "", "Opus": ""}
-
         data_prompt = initial_message + data.rstrip(" .")
 
         for model_name, model_id in config["openai_models"].items():

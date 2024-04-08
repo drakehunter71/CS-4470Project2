@@ -14,7 +14,9 @@ test_df["speculative"] = (
 )
 test_df.reset_index(drop=True, inplace=True)
 
-autoRegressiveModelResults = pd.read_csv("Results/autoRegressiveModelsUpdated.csv")
+# autoRegressiveModelResults = pd.read_csv("Results/autoRegressiveModelsUpdated.csv")
+autoRegressiveModelResults = pd.read_csv("Results/covidAutoregressiveModels.csv")
+
 
 autoRegressiveModelResults.loc[:, "type"] = test_df.loc[:, "type"]
 autoRegressiveModelResults.loc[:, "speculative"] = test_df.loc[:, "speculative"]
